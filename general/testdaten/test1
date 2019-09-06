@@ -1,0 +1,7 @@
+PUT school/_doc/1
+{
+		"subject_name": "vitae,",
+		"topic": "et libero. Proin mi. Aliquam gravida mauris ut mi. Duis risus",
+		"date": "Tue, 03 September 2019 08:49"
+}
+GET school/_doc/1
