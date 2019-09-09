@@ -16,8 +16,9 @@ m["route"] = 66
 i := m["root"] //=> i == 0 because key doesn´t exist
 n := len(m) //=> returns number of elements in a map
 delete(m, "route") // deletes an entry from a map
-_, ok := m["route"]// How to test for a key, without retrieving the value
+
 m["route"] = 66
+_, ok := m["route"]// How to test for a key, without retrieving the value
 commits := map [string]int{ //=> initializing map with some data using literal
 	"rsc": 3711,
 	"r": 2138,
