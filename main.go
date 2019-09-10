@@ -2,7 +2,7 @@ package main
 
 import (
 	//"log"
-	 //"fmt"
+	"fmt"
 	// "net"
 	//"os"
 	
@@ -12,4 +12,5 @@ import (
 
 func main(){
 	cmd.Execute()
+	fmt.Println("Executed!")
 }
