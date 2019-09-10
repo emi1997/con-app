@@ -6,10 +6,11 @@ import (
   "github.com/spf13/cobra"
 )
 
+//calls on rootCmd from root.go with AddDocument function and passes it newly created command as argument
 func init (){
   rootCmd.AddCommand(addDocument)
 }
-
+//Defining new command
 var addDocument = &cobra.Command{
   Use: "adddocument",
   Short: "Add new document to a given index",

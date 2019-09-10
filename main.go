@@ -2,7 +2,7 @@ package main
 
 import (
 	//"log"
-	"fmt"
+	//"fmt"
 	// "net"
 	//"os"
 	
@@ -11,6 +11,6 @@ import (
 )
 
 func main(){
-	cmd.Execute()
-	fmt.Println("Executed!")
+	// Calls on function execute from cmd packages root.go
+	cmd.Execute();
 }
