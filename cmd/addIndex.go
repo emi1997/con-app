@@ -10,7 +10,7 @@ func init (){
 }
 
 var addIndex = &cobra.Command{
-  Use: "addindext",
+  Use: "addindex",
   Short: "Add a new index",
   Long:  `Use this command to add a new index of your choice.`,
   Run: func(cmd *cobra.Command, args []string) {
