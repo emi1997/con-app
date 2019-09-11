@@ -1,16 +1,18 @@
 package main
 
 import (
-	//"log"
-	//"fmt"
-	// "net"
-	//"os"
-	
-	//"github.com/spf13/cobra"
-	"./cmd"
+	"log"
+	"github.com/elastic/go-elasticsearch/v7"
 )
 
 func main(){
-	// Calls on function execute from cmd packages root.go
-	cmd.Execute();
+	cfg := elasticsearch.Config{
+		Addresses: []string{
+		  "http://localhost:9200",
+		  "http://localhost:9201",
+		},
+	  }
+	elastic, _ := elasticsearch.NewClient(cfg)
+	log.Println(elasticsearch.Version)
+	log.Println(elastic.Info())
 }

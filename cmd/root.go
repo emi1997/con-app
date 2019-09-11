@@ -12,8 +12,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "school",
 	Short: "This is an app to store topics",
-	Long: `This is an app to store topics. It stores them in an Elasticsearch index
-		and can query them.`,
+	Long: `This is an app to store topics. It stores them in an Elasticsearch index and can query them.`,
 }
 
 //Execute - Adds all defined commands
