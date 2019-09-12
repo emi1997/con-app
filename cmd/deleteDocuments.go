@@ -4,6 +4,7 @@ import (
  //"fmt"
 
   "github.com/spf13/cobra"
+  "client"
 )
 
 //calls on rootCmd from root.go with AddDocument function and passes it newly created command as argument
@@ -17,6 +18,6 @@ var deleteDocument = &cobra.Command{
   Short: "delete document from a given index",
   Long:  `Use this command to delete a document from the index of your choice.`,
   Run: func(cmd *cobra.Command, args []string) {
-    
+    client.DeleteDocument()
   },
 }

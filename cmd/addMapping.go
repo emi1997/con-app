@@ -2,28 +2,21 @@ package cmd
 
 import (
   // "fmt"
-  // "context"
-	// "encoding/json"
-	// //"fmt"
-	// "reflect"
-	// "time"
+  //"log"
+  //"context"
 
-  // "github.com/spf13/cobra"
-  // "github.com/olivere/elastic"
+  "github.com/spf13/cobra"
+  //"github.com/olivere/elastic"
+
+  "client"
 )
 
 //Defining new command
-// const mapping = 
-// {
-//   "settings":{
-//     "number_of_shards": 5,
-//     "number_of_replicas": 1
-//   },
-//   "mappings":{
-
-//   },
-// }
-
-// func main(){
-
-// }
+var addMapping = &cobra.Command{
+  Use: "newmap",
+  Short: "Add a new mapping",
+  Long:  `Use this command to add a new mapping to an index of your choice.`,
+  Run: func(cmd *cobra.Command, args []string) {
+    client.AddMapping()
+  },
+}
