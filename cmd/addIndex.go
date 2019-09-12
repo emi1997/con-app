@@ -1,15 +1,15 @@
 package cmd
 
 import (
-  "fmt"
+  // "fmt"
+  //"log"
+  //"context"
 
   "github.com/spf13/cobra"
-)
+  //"github.com/olivere/elastic"
 
-//calls on rootCmd from root.go with AddDocument function and passes it newly created command as argument
-func init (){
-  rootCmd.AddCommand(addIndex)
-}
+  "client"
+)
 
 //Defining new command
 var addIndex = &cobra.Command{
@@ -17,6 +17,6 @@ var addIndex = &cobra.Command{
   Short: "Add a new index",
   Long:  `Use this command to add a new index of your choice.`,
   Run: func(cmd *cobra.Command, args []string) {
-    fmt.Println("Will be implemented shortly")
+    client.AddIndex()
   },
 }

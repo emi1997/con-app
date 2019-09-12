@@ -1,7 +1,7 @@
 package cmd
 
 import (
-  "fmt"
+ //"fmt"
 
   "github.com/spf13/cobra"
 )
@@ -17,6 +17,6 @@ var deleteDocument = &cobra.Command{
   Short: "delete document from a given index",
   Long:  `Use this command to delete a document from the index of your choice.`,
   Run: func(cmd *cobra.Command, args []string) {
-    fmt.Println("Will be implemented shortly")
+    
   },
 }
