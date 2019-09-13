@@ -9,15 +9,14 @@ import (
 
 //calls on rootCmd from root.go with AddDocument function and passes it newly created command as argument
 func init (){
-  rootCmd.AddCommand(deleteIndex)
+  rootCmd.AddCommand(indexExist)
 }
-
 //Defining new command
-var deleteIndex = &cobra.Command{
-  Use: "delind",
-  Short: "delete index from a given index",
-  Long:  `Use this command to delete an index .`,
+var indexExist = &cobra.Command{
+  Use: "exist",
+  Short: "Check if index exists",
+  Long:  ``,
   Run: func(cmd *cobra.Command, args []string) {
-    client.DeleteIndex()
+    client.IndexExist()
   },
 }
