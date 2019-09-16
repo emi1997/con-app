@@ -19,7 +19,8 @@ var NewClient, err = elastic.NewClient(
 	elastic.SetURL("http://localhost:9200"),
 	elastic.SetHealthcheckInterval(10*time.Second),
 )
-var Ctx = context.Background()
+
+var ctx = context.Background()
 
 /*
 GetNewClient will throw error message if there is any, during the
@@ -41,7 +42,7 @@ func GetNewClient() {
 func AddIndex() {
 
 	indexName := scanner.Scanner()
-	createIndex, err := NewClient.CreateIndex(indexName).BodyString(NewMapping).Do(Ctx)
+	createIndex, err := NewClient.CreateIndex(indexName).BodyString(NewMapping).Do(ctx)
 	if err != nil {
 		// Handle error
 		panic(err)
@@ -56,7 +57,7 @@ func AddIndex() {
 //IndexExist checks if an index is already there
 func IndexExist() {
 	indexName := scanner.Scanner()
-	indexExists, err := NewClient.IndexExists(indexName).Do(Ctx)
+	indexExists, err := NewClient.IndexExists(indexName).Do(ctx)
 	if indexExists {
 		fmt.Println("That one exists already!")
 	}
@@ -68,7 +69,7 @@ func IndexExist() {
 //DeleteIndex lets you delete an Index
 func DeleteIndex() {
 	indexName := scanner.Scanner()
-	deleteIndex, err := NewClient.DeleteIndex(indexName).Do(Ctx)
+	deleteIndex, err := NewClient.DeleteIndex(indexName).Do(ctx)
 	if err != nil {
 		// Handle error
 		log.Fatalf("An Error has happend. Most likely your index wasn´t found. This is the error message: %v", err)
@@ -80,6 +81,7 @@ func DeleteIndex() {
 	}
 }
 
+//NewMapping lets you add mapping
 var NewMapping string
 
 //AddMapping lets you add mapping
@@ -106,14 +108,13 @@ func AddMapping() *elastic.IndicesPutTemplateResponse {
 			}
 		]
 	}`
-	NewMapping, err := NewClient.IndexPutTemplate(mappingTemplate).Do(Ctx)
+	NewMapping, err := NewClient.IndexPutTemplate(mappingTemplate).Do(ctx)
 	if err != nil {
 		fmt.Println(err)
 	}
 	return NewMapping
 }
 
-//NewMapping lets you add mapping
 
 //AddDocument lets you add a document to a given index
 func AddDocument() {
