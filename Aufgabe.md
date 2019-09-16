@@ -12,10 +12,10 @@
 
 ### Elasticsearch Index
 
-- [ ] Erstellen eines Indexes
-- [ ] Hinzufügen des Index Mappings
-- [ ] Updaten des Index Mappings
-- [ ] Löschen des Indexes
+- [x] Erstellen eines Indexes
+- [x] Hinzufügen des Index Mappings
+- [x] Updaten des Index Mappings
+- [x] Löschen des Indexes
 
 ### Index Dokumente
 
@@ -32,10 +32,10 @@
 
 - [ ] Erstelle ein Dashboard mit mind. sinvolle 4 Visualisierungen für die Daten in deinem Index in Kibana
 
-`DEADLINE:` => 06.09.2019
+`DEADLINE:` => 18.09.2019
 
 ### Logstash
 
 - [ ] Transformiere eine CSV Datei in deine gewählte Datenstruktur und übertrage sie mit Hilfe von Logstash.
 
-`DEADLINE:` => 13.09.2019
+`DEADLINE:` => 23.09.2019

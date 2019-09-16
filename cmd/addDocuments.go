@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/emi1997/con-app/client"
 
 	//"fmt"
 

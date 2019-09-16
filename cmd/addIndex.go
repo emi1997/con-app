@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"con-app/go/src/client"
 	// "fmt"
 	//"log"
 	//"context"
 	//"bufio"
 
+	"github.com/emi1997/con-app/client"
 	"github.com/spf13/cobra"
 	//"github.com/olivere/elastic"
 )

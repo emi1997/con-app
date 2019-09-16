@@ -1,25 +1,24 @@
 package cmd
 
 import (
-	"con-app/go/src/client"
- //"fmt"
+	//"fmt"
 
-  "github.com/spf13/cobra"
-  //"client"
-  
+	"github.com/emi1997/con-app/client"
+	"github.com/spf13/cobra"
+	//"client"
 )
 
 //calls on rootCmd from root.go with AddDocument function and passes it newly created command as argument
-func init (){
-  rootCmd.AddCommand(deleteDocument)
+func init() {
+	rootCmd.AddCommand(deleteDocument)
 }
 
 //Defining new command
 var deleteDocument = &cobra.Command{
-  Use: "deldoc",
-  Short: "delete document from a given index",
-  Long:  `Use this command to delete a document from the index of your choice.`,
-  Run: func(cmd *cobra.Command, args []string) {
-    client.DeleteDocument()
-  },
+	Use:   "deldoc",
+	Short: "delete document from a given index",
+	Long:  `Use this command to delete a document from the index of your choice.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		client.DeleteDocument()
+	},
 }
