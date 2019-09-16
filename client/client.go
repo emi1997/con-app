@@ -3,7 +3,8 @@ package client
 import (
 	// "log"
 	"context"
-	"github.com/emi1997/con-app/scanner"
+
+	//"github.com/emi1997/con-app/scanner"
 
 	//"net/http"
 	"fmt"
@@ -14,13 +15,15 @@ import (
 	//"github.com/spf13/cobra"
 )
 
-//NewClient is being called by the main.go every time the app is being started
-var NewClient, err = elastic.NewClient(
+//Client is being called by the main.go every time the app is being started
+var Client, err = elastic.NewClient(
 	elastic.SetURL("http://localhost:9200"),
 	elastic.SetHealthcheckInterval(10*time.Second),
 )
 
 var ctx = context.Background()
+
+//var indexName = scanner.Scanner()
 
 /*
 GetNewClient will throw error message if there is any, during the
@@ -39,10 +42,10 @@ func GetNewClient() {
 }
 
 //AddIndex lets you add a new index
-func AddIndex() {
+func AddIndex(){
 
-	indexName := scanner.Scanner()
-	createIndex, err := NewClient.CreateIndex(indexName).BodyString(NewMapping).Do(ctx)
+	//indexName := scanner.Scanner()
+	createIndex, err := Client.CreateIndex("school").Do(ctx)
 	if err != nil {
 		// Handle error
 		panic(err)
@@ -52,12 +55,13 @@ func AddIndex() {
 	} else {
 		fmt.Printf("Index created!")
 	}
+	//return indexName
 }
 
 //IndexExist checks if an index is already there
 func IndexExist() {
-	indexName := scanner.Scanner()
-	indexExists, err := NewClient.IndexExists(indexName).Do(ctx)
+	//indexName := scanner.Scanner()
+	indexExists, err := Client.IndexExists("school").Do(ctx)
 	if indexExists {
 		fmt.Println("That one exists already!")
 	}
@@ -68,8 +72,8 @@ func IndexExist() {
 
 //DeleteIndex lets you delete an Index
 func DeleteIndex() {
-	indexName := scanner.Scanner()
-	deleteIndex, err := NewClient.DeleteIndex(indexName).Do(ctx)
+	//indexName := scanner.Scanner()
+	deleteIndex, err := Client.DeleteIndex("school").Do(ctx)
 	if err != nil {
 		// Handle error
 		log.Fatalf("An Error has happend. Most likely your index wasn´t found. This is the error message: %v", err)
@@ -85,40 +89,52 @@ func DeleteIndex() {
 var NewMapping string
 
 //AddMapping lets you add mapping
-func AddMapping() *elastic.IndicesPutTemplateResponse {
-	var mappingTemplate = `{
-		"settings":{
-			"number_of_shards":2,
-			"number_of_replicas":1
-		},
-		"dynamic_template":[
+func AddMapping() {
+	var mappingTemplate = `
+	{
+		"dynamic_templates": [
+		  {
 			"integers": {
-				"match_mapping_type": "long",
-				"mapping": {
-				  "type": "integer"
+			  "match_mapping_type": "long",
+			  "mapping": {
+				"type": "integer"
+			  }
+			}
+		  },
+		  {
+			"strings": {
+			  "match_mapping_type": "string",
+			  "mapping": {
+				"type": "text",
+				"fields": {
+				  "raw": {
+					"type":  "keyword",
+					"ignore_above": 256
+				  }
 				}
 			  }
-			},
-			{
-			"strings": {
-				"match_mapping_type": "string",
-				"mapping": {
-				  "type": "text"
-				}
 			}
+		  }
 		]
-	}`
-	NewMapping, err := NewClient.IndexPutTemplate(mappingTemplate).Do(ctx)
-	if err != nil {
-		fmt.Println(err)
 	}
-	return NewMapping
-}
+	`
 
+	NewMapping, err := Client.PutMapping().Index("school").BodyString(mappingTemplate).Do(context.TODO())
+	if err != nil {
+		panic(err)
+		// fmt.Printf("expected put mapping to succeed; got: %v", err)
+	}
+
+	//fmt.Println(mappingTemplate, NewMapping)
+	if !NewMapping.Acknowledged{
+		fmt.Print("something went wrong")
+	}
+}
 
 //AddDocument lets you add a document to a given index
 func AddDocument() {
-
+	// docName := scanner.Scanner()
+	// docName, err := Client.Index().Do(ctx)
 }
 
 //DeleteDocument lets you delete a document from a given index

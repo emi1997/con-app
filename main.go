@@ -15,8 +15,10 @@ limitations under the License.
 */
 package main
 
-import "con-app/cmd"
+import (
+	"github.com/emi1997/con-app/cmd"
+)
 
 func main() {
-  cmd.Execute()
+	cmd.Execute()
 }
