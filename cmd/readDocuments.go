@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"con-app/go/src/client"
   //"fmt"
 
   "github.com/spf13/cobra"
@@ -18,6 +19,6 @@ var readDocument = &cobra.Command{
   Short: "read document from a given index",
   Long:  `Use this command to read a document from the index of your choice.`,
   Run: func(cmd *cobra.Command, args []string) {
-    //client.ReadDocument()
+    client.ReadDocument()
   },
 }

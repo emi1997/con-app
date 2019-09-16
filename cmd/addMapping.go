@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"con-app/go/src/client"
   // "fmt"
   //"log"
   //"context"
@@ -22,6 +23,6 @@ var addMapping = &cobra.Command{
   Short: "Add a new mapping",
   Long:  `Use this command to add a new mapping to an index of your choice.`,
   Run: func(cmd *cobra.Command, args []string) {
-    //client.AddMapping()
+    client.AddMapping()
   },
 }
