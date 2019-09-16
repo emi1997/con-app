@@ -2,7 +2,12 @@ package client
 
 import (
 	// "log"
+	"bytes"
 	"context"
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"os"
 
 	//"github.com/emi1997/con-app/scanner"
 
@@ -42,7 +47,7 @@ func GetNewClient() {
 }
 
 //AddIndex lets you add a new index
-func AddIndex(){
+func AddIndex() {
 
 	//indexName := scanner.Scanner()
 	createIndex, err := Client.CreateIndex("school").Do(ctx)
@@ -126,14 +131,52 @@ func AddMapping() {
 	}
 
 	//fmt.Println(mappingTemplate, NewMapping)
-	if !NewMapping.Acknowledged{
+	if !NewMapping.Acknowledged {
 		fmt.Print("something went wrong")
 	}
 }
 
 //AddDocument lets you add a document to a given index
 func AddDocument() {
-	// docName := scanner.Scanner()
+	//use os.Open to open a jsonfile and defer the closure of the file until the first function is finished.
+	//Serves to open the json file
+	jsonFile, err := os.Open("./test_data.json")
+	if err != nil {
+		panic(err)
+	}
+	defer jsonFile.Close()
+	fmt.Println("Opend JsonFile successfully: ", jsonFile)
+
+	//read the json file
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var result map[string]interface{}
+	json.Unmarshal([]byte(byteValue), &result)
+	fmt.Println(result["test_data"])
+
+	//get request body and post it to url
+	requestBody, err := json.Marshal(result)
+	if err != nil {
+		panic(err)
+	}
+	req, err := http.NewRequest("PUT", "http://localhost:9200/school", bytes.NewBuffer(requestBody))
+	if err != nil {
+		panic(err)
+	}
+	defer req.Body.Close()
+
+	//read request body
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		panic(err)
+	}
+	log.Println(string(body))
+	// addDoc, err := Client.Index().
+	// 				Index("school").BodyJson().Do(ctx)
+	// if err != nil{
+	// 	panic(err)
+	// }
+
+	// fmt.Println(docName, addDoc)
 	// docName, err := Client.Index().Do(ctx)
 }
 
