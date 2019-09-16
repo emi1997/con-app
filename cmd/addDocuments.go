@@ -3,10 +3,7 @@ package cmd
 import (
 	"github.com/emi1997/con-app/client"
 
-	//"fmt"
-
 	"github.com/spf13/cobra"
-	//"client"
 )
 
 //calls on rootCmd from root.go with AddDocument function and passes it newly created command as argument

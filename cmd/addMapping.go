@@ -1,14 +1,8 @@
 package cmd
 
 import (
-	// "fmt"
-	//"log"
-	//"context"
-
 	"github.com/emi1997/con-app/client"
 	"github.com/spf13/cobra"
-	//"github.com/olivere/elastic"
-	//"client"
 )
 
 //calls on rootCmd from root.go with AddDocument function and passes it newly created command as argument

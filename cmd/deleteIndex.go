@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	//"fmt"
-
 	"github.com/emi1997/con-app/client"
 	"github.com/spf13/cobra"
 )
