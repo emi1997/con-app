@@ -219,7 +219,3 @@ func UpdateMapping() {
 
 }
 
-//BulkIndex let´s you index multiple documents at once
-func BulkIndex() {
-
-}
