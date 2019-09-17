@@ -202,10 +202,9 @@ func GetDocument() {
 		Id("3").
 		Do(ctx)
 	if err != nil {
-		// Handle error
 		panic(err)
 	}
-	if get1 == nil {
+	if get1 != nil {
 		fmt.Println(get1)
 	}
 }
