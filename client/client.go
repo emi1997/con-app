@@ -170,19 +170,22 @@ func AddDocument() {
 		panic(err)
 	}
 	log.Println(string(body))
-	// addDoc, err := Client.Index().
-	// 				Index("school").BodyJson().Do(ctx)
-	// if err != nil{
-	// 	panic(err)
-	// }
-
-	// fmt.Println(docName, addDoc)
-	// docName, err := Client.Index().Do(ctx)
 }
 
 //DeleteDocument lets you delete a document from a given index
 func DeleteDocument() {
-
+	res, err := Client.Delete().
+    Index("school").
+    Type("_doc").
+    Id("1").
+	Do(ctx)
+	
+	if err != nil{
+		panic(err)
+	}
+	if res != nil {
+		fmt.Print("Document deleted from from index\n")
+	}
 }
 
 //ReadDocument lets you read documents froman index
