@@ -190,7 +190,7 @@ func DeleteDocument() {
 
 //ReadDocument lets you read documents froman index
 func ReadDocument() {
-
+	
 }
 
 //UpdateDocument lets you update a specific document in a given index
