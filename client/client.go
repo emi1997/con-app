@@ -2,11 +2,10 @@ package client
 
 import (
 	// "log"
-	"bytes"
+
 	"context"
 	"encoding/json"
 	"io/ioutil"
-	"net/http"
 	"os"
 
 	//"github.com/emi1997/con-app/scanner"
@@ -28,12 +27,14 @@ var Client, err = elastic.NewClient(
 
 var ctx = context.Background()
 
+var bulkRequest = Client.Bulk()
 
 type TestEntry struct {
-	Fach string `json:"Fach"`
+	Fach  string `json:"Fach"`
 	Stoff string `json:"Thema"`
-	Wann string `json:"Wann"`
+	Wann  string `json:"Wann"`
 }
+
 //var indexName = scanner.Scanner()
 
 /*
@@ -157,13 +158,11 @@ func AddDocument() {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	var result []TestEntry
-	
+
 	json.Unmarshal([]byte(byteValue), &result)
 	// fmt.Printf("%#v\n", result)
 
-	bulkRequest := Client.Bulk()
-
-	for idx, entry := range result{
+	for idx, entry := range result {
 		indexReq := elastic.NewBulkIndexRequest().Index("school").Type("_doc").Id(string(idx)).Doc(entry)
 		bulkRequest = bulkRequest.Add(indexReq)
 	}
@@ -173,7 +172,7 @@ func AddDocument() {
 		panic(err)
 	}
 	indexed := bulkResponse.Indexed()
-	if len(indexed) == 0{
+	if len(indexed) == 0 {
 		fmt.Println("Something went wrong!")
 	}
 
@@ -209,34 +208,6 @@ func GetDocument() {
 	}
 }
 
-//ReadDocument lets you read documents froman index
-func ReadDocument(){
-	jsonFile, err := os.Open("./readQuery.json")
-	if err != nil {
-		panic(err)
-	}
-	defer jsonFile.Close()
-	fmt.Println("Opend JsonFile successfully: ", jsonFile)
-
-	//read the json file
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var result map[string]interface{}
-	json.Unmarshal([]byte(byteValue), &result)
-	fmt.Println(result["readQuery"])
-
-	//get request body and post it to url
-	requestBody, err := json.Marshal(result)
-	if err != nil {
-		panic(err)
-	}
-	req, err := http.NewRequest("GET", "http://localhost:9200/school/_search", bytes.NewBuffer(requestBody))
-	if err != nil {
-		panic(err)
-	}
-	defer req.Body.Close()
-
-	fmt.Println(req.Response)
-}
 
 //UpdateDocument lets you update a specific document in a given index
 func UpdateDocument() {
