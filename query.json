@@ -1,9 +1,0 @@
-{
-    "query": {
-        "match" : {
-            "Fach" : {
-                "query" : "vitae,"
-            }
-        }
-    }
-}

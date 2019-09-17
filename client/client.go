@@ -28,6 +28,12 @@ var Client, err = elastic.NewClient(
 
 var ctx = context.Background()
 
+
+type TestEntry struct {
+	Fach string `json:"Fach"`
+	Stoff string `json:"Thema"`
+	Wann string `json:"Wann"`
+}
 //var indexName = scanner.Scanner()
 
 /*
@@ -149,27 +155,28 @@ func AddDocument() {
 
 	//read the json file
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var result map[string]interface{}
+
+	var result []TestEntry
+	
 	json.Unmarshal([]byte(byteValue), &result)
-	fmt.Println(result["test_data"])
+	// fmt.Printf("%#v\n", result)
 
-	//get request body and post it to url
-	requestBody, err := json.Marshal(result)
-	if err != nil {
-		panic(err)
-	}
-	req, err := http.NewRequest("PUT", "http://localhost:9200/school", bytes.NewBuffer(requestBody))
-	if err != nil {
-		panic(err)
-	}
-	defer req.Body.Close()
+	bulkRequest := Client.Bulk()
 
-	//read request body
-	body, err := ioutil.ReadAll(req.Body)
+	for idx, entry := range result{
+		indexReq := elastic.NewBulkIndexRequest().Index("school").Type("_doc").Id(string(idx)).Doc(entry)
+		bulkRequest = bulkRequest.Add(indexReq)
+	}
+
+	bulkResponse, err := bulkRequest.Do(context.Background())
 	if err != nil {
 		panic(err)
 	}
-	log.Println(string(body))
+	indexed := bulkResponse.Indexed()
+	if len(indexed) == 0{
+		fmt.Println("Something went wrong!")
+	}
+
 }
 
 //DeleteDocument lets you delete a document from a given index
@@ -188,9 +195,24 @@ func DeleteDocument() {
 	}
 }
 
-//GetDocument lets you read documents froman index
+//GetDocument lets you read documents from an index
 func GetDocument() {
-	jsonFile, err := os.Open("./query.json")
+	get1, err := Client.Get().
+		Index("school").
+		Id("3").
+		Do(ctx)
+	if err != nil {
+		// Handle error
+		panic(err)
+	}
+	if get1 == nil {
+		fmt.Println(get1)
+	}
+}
+
+//ReadDocument lets you read documents froman index
+func ReadDocument(){
+	jsonFile, err := os.Open("./readQuery.json")
 	if err != nil {
 		panic(err)
 	}
@@ -201,24 +223,20 @@ func GetDocument() {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var result map[string]interface{}
 	json.Unmarshal([]byte(byteValue), &result)
-	fmt.Println(result["query"])
+	fmt.Println(result["readQuery"])
 
 	//get request body and post it to url
 	requestBody, err := json.Marshal(result)
 	if err != nil {
 		panic(err)
 	}
-	req, err := http.NewRequest("GET", "http://localhost:9200/school", bytes.NewBuffer(requestBody))
+	req, err := http.NewRequest("GET", "http://localhost:9200/school/_search", bytes.NewBuffer(requestBody))
 	if err != nil {
 		panic(err)
 	}
 	defer req.Body.Close()
 
-	body, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		panic(err)
-	}
-	log.Println(string(body))
+	fmt.Println(req.Response)
 }
 
 //UpdateDocument lets you update a specific document in a given index
