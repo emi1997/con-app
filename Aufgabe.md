@@ -20,8 +20,8 @@
 ### Index Dokumente
 
 - [x] Einfügen eines oder mehrerer Dokumente in deinen Index
-- [ ] Auslesen eines oder mehrerer Dokumente in deinen Index
-- [ ] Updaten eines oder mehrerer Dokumente in deinen Index
+- [x] Auslesen eines oder mehrerer Dokumente in deinen Index
+- [x] Updaten eines oder mehrerer Dokumente in deinen Index
 - [x] Löschen eines oder mehrerer Dokumente in deinen Index
 
 ### Queries / Filter

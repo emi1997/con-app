@@ -35,6 +35,12 @@ type TestEntry struct {
 	Wann  string `json:"Wann"`
 }
 
+type TestUpdate struct {
+	Fach  string `json:"Fach"`
+	Stoff string `json:"Thema"`
+	Wann  string `json:"Wann"`
+}
+
 //var indexName = scanner.Scanner()
 
 /*
@@ -208,14 +214,80 @@ func GetDocument() {
 	}
 }
 
-
 //UpdateDocument lets you update a specific document in a given index
 func UpdateDocument() {
+	jsonFile, err := os.Open("./update_data.json")
+	if err != nil {
+		panic(err)
+	}
+	defer jsonFile.Close()
+	fmt.Println("Opend JsonFile successfully: ", jsonFile)
 
+	//read the json file
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var updateResult []TestUpdate
+
+	json.Unmarshal([]byte(byteValue), &updateResult)
+	//fmt.Printf("%#v\n", updateResult)
+
+	for idx, entry := range updateResult {
+		updateReq := elastic.NewBulkUpdateRequest().Index("school").Type("_doc").Id(string(idx)).Doc(entry)
+		if err != nil {
+			panic(err)
+		}
+		bulkRequest = bulkRequest.Add(updateReq)
+	}
+	bulkResponse, err := bulkRequest.Do(ctx)
+	if err != nil {
+		panic(err)
+	}
+	updated := bulkResponse.Updated()
+	if len(updated) == 0 {
+		fmt.Println("Something went wrong!")
+	}
 }
 
 //UpdateMapping lets you update the mapping of a given index
 func UpdateMapping() {
+	var mappingTemplate = `
+	{
+		"dynamic_date_formats": ["MM/dd/yyyy", "E, d M y H:m:s"],
+		"dynamic_templates": [
+		  {
+			"integers": {
+			  "match_mapping_type": "long",
+			  "mapping": {
+				"type": "integer"
+			  }
+			}
+		  },
+		   {
+				"strings": {
+					"match_mapping_type": "string",
+					"mapping": {
+						"type": "text",
+						"fields": {
+						"raw": {
+							"type":  "keyword",
+							"ignore_above": 256
+							}
+						}
+			  		}
+				}
+		  	}
+		]
+	}
+	`
 
+	NewMapping, err := Client.PutMapping().Index("school").BodyString(mappingTemplate).Do(context.TODO())
+	if err != nil {
+		panic(err)
+		// fmt.Printf("expected put mapping to succeed; got: %v", err)
+	}
+
+	//fmt.Println(mappingTemplate, NewMapping)
+	if !NewMapping.Acknowledged {
+		fmt.Print("something went wrong")
+	}
 }
-
