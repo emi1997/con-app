@@ -175,12 +175,12 @@ func AddDocument() {
 //DeleteDocument lets you delete a document from a given index
 func DeleteDocument() {
 	res, err := Client.Delete().
-    Index("school").
-    Type("_doc").
-    Id("1").
-	Do(ctx)
-	
-	if err != nil{
+		Index("school").
+		Type("_doc").
+		Id("1").
+		Do(ctx)
+
+	if err != nil {
 		panic(err)
 	}
 	if res != nil {
@@ -188,9 +188,37 @@ func DeleteDocument() {
 	}
 }
 
-//ReadDocument lets you read documents froman index
-func ReadDocument() {
-	
+//GetDocument lets you read documents froman index
+func GetDocument() {
+	jsonFile, err := os.Open("./query.json")
+	if err != nil {
+		panic(err)
+	}
+	defer jsonFile.Close()
+	fmt.Println("Opend JsonFile successfully: ", jsonFile)
+
+	//read the json file
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var result map[string]interface{}
+	json.Unmarshal([]byte(byteValue), &result)
+	fmt.Println(result["query"])
+
+	//get request body and post it to url
+	requestBody, err := json.Marshal(result)
+	if err != nil {
+		panic(err)
+	}
+	req, err := http.NewRequest("GET", "http://localhost:9200/school", bytes.NewBuffer(requestBody))
+	if err != nil {
+		panic(err)
+	}
+	defer req.Body.Close()
+
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		panic(err)
+	}
+	log.Println(string(body))
 }
 
 //UpdateDocument lets you update a specific document in a given index
