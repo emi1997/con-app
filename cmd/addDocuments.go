@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/emi1997/console-app/client"
+	"github.com/emi1997/con-app/client"
 
 	"github.com/spf13/cobra"
 )
