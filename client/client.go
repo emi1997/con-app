@@ -20,10 +20,7 @@ import (
 )
 //var indexName = scanner.Scanner()
 
-/*
-GetNewClient will throw error message if there is any, during the
-call of NewClient
-*/
+
 
 
 //AddIndex lets you add a new index
