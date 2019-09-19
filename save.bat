@@ -1,3 +1,3 @@
 @echo
 
-git add . && git commit -m "update" && git push origin master
+git add . && git commit -m "update" && git push origin v2

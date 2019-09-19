@@ -29,12 +29,14 @@ var ctx = context.Background()
 
 var bulkRequest = Client.Bulk()
 
+//TestEntry represents a document in the index
 type TestEntry struct {
 	Fach  string `json:"Fach"`
 	Stoff string `json:"Thema"`
 	Wann  string `json:"Wann"`
 }
 
+//TestUpdate represents a document in the index
 type TestUpdate struct {
 	Fach  string `json:"Fach"`
 	Stoff string `json:"Thema"`
