@@ -12,7 +12,7 @@ import (
 
 	//"net/http"
 	"fmt"
-	"log"
+	// "log"
 	//"time"
 
 	"github.com/olivere/elastic"
@@ -25,78 +25,7 @@ import (
 
 
 
-//IndexExist checks if an index is already there
-func IndexExist() {
-	//indexName := scanner.Scanner()
-	indexExists, err := Client.IndexExists("school").Do(ctx)
-	if indexExists {
-		fmt.Println("That one exists already!")
-	}
-	if err != nil {
-		fmt.Println(err)
-	}
-}
 
-//DeleteIndex lets you delete an Index
-func DeleteIndex() {
-	//indexName := scanner.Scanner()
-	deleteIndex, err := Client.DeleteIndex("school").Do(ctx)
-	if err != nil {
-		// Handle error
-		log.Fatalf("An Error has happend. Most likely your index wasn´t found. This is the error message: %v", err)
-	}
-	if !deleteIndex.Acknowledged {
-		panic(err)
-	} else {
-		fmt.Println("Success!")
-	}
-}
-
-//NewMapping lets you add mapping
-var NewMapping string
-
-//AddMapping lets you add mapping
-func AddMapping() {
-	var mappingTemplate = `
-	{
-		"dynamic_templates": [
-		  {
-			"integers": {
-			  "match_mapping_type": "long",
-			  "mapping": {
-				"type": "integer"
-			  }
-			}
-		  },
-		  {
-			"strings": {
-			  "match_mapping_type": "string",
-			  "mapping": {
-				"type": "text",
-				"fields": {
-				  "raw": {
-					"type":  "keyword",
-					"ignore_above": 256
-				  }
-				}
-			  }
-			}
-		  }
-		]
-	}
-	`
-
-	NewMapping, err := Client.PutMapping().Index("school").BodyString(mappingTemplate).Do(context.TODO())
-	if err != nil {
-		panic(err)
-		// fmt.Printf("expected put mapping to succeed; got: %v", err)
-	}
-
-	//fmt.Println(mappingTemplate, NewMapping)
-	if !NewMapping.Acknowledged {
-		fmt.Print("something went wrong")
-	}
-}
 
 //AddDocument lets you add a document to a given index
 func AddDocument() {

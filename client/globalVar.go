@@ -29,6 +29,9 @@ var ctx = context.Background()
 
 var bulkRequest = Client.Bulk()
 
+//NewMapping lets you add mapping
+var NewMapping string
+
 //TestEntry represents a document in the index
 type TestEntry struct {
 	Fach  string `json:"Fach"`
