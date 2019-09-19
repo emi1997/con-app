@@ -24,17 +24,7 @@ import (
 GetNewClient will throw error message if there is any, during the
 call of NewClient
 */
-func GetNewClient() {
-	//Creating a new client for Elasticsearch instance
-	if err != nil {
-		// Handle error
-		panic(err)
-	}
-	fmt.Println("Success!")
-	if elastic.IsConnErr(err) {
-		log.Fatalf("Elasticsearch connection problem: %v", err)
-	}
-}
+
 
 //AddIndex lets you add a new index
 func AddIndex() {
